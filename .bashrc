@@ -126,27 +126,54 @@ alias tf="tail -f"
 alias lla="ls -la"
 alias lt="ls -latr"
 alias op="xdg-open"
+alias gs="git status"
+alias gd="git diff"
+alias gf="git fetch"
+alias gc="git commit -m"
+alias ga="git add"
+alias gaa="ga -A"
+
+color_prompt=yes
 
 # Add git branch if its present to PS1
-parse_git_branch() {
+git_branch() {
  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
 }
-# Add git status if its present to PS1
-parse_git_unknown() {
- git status -s 2> /dev/null | grep -c '^?? '
+
+git_status() {
+ test -n "$(git_branch)" && echo -n "$*"
 }
-parse_git_unstaged() {
- git status -s 2> /dev/null | grep -c '^.[AMD] '
+git_unknown() {
+ git_status $(git status -s 2> /dev/null | grep -c '^?? ')
 }
-parse_git_staged() {
- git status -s 2> /dev/null | grep -c '^[AMD]. '
+git_unstaged() {
+ git_status $(git status -s 2> /dev/null | grep -c '^.[AMD] ')
 }
-color_prompt=yes
-if [ "$color_prompt" = yes ]; then
- PS1='${debian_chroot:+($debian_chroot)}\[\033[01;34m\]\w\[\033[01;31m\]$(parse_git_branch)\[\033[00m\][$(parse_git_unknown)/\[\033[01;33m\]$(parse_git_unstaged)\[\033[00m\]/\[\033[01;32m\]$(parse_git_staged)\[\033[00m\]]\n\$ '
-else
- PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w$(parse_git_branch)[$(parse_git_unknown)/$(parse_git_unstaged)/$(parse_git_staged)]\$ '
-fi
+git_staged() {
+ git_status $(git status -s 2> /dev/null | grep -c '^[AMD]. ')
+}
+
+set_prompt() {
+ if [ "$color_prompt" = yes ]; then
+  local Z='\[\033[00m\]'
+  local R='\[\033[01;31m\]'
+  local G='\[\033[01;32m\]'
+  local Y='\[\033[01;33m\]'
+  local B='\[\033[01;34m\]'
+ fi
+
+  PS1='${debian_chroot:+($debian_chroot)}'$B'\w'$Z\
+$R'$(git_branch)'$Z\
+'$(git_status [)'\
+$Y'$(git_unknown)'$Z'$(git_status /)'\
+$R'$(git_unstaged)'$Z'$(git_status /)'\
+$G'$(git_staged)'$Z'$(git_status ])'\
+'\n\$ '
+
+}
+
+set_prompt
+
 unset color_prompt force_color_prompt
 
 EDITOR=vim
