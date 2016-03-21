@@ -137,13 +137,11 @@ alias gcl="git clone"
 alias gch="git checkout"
 alias gpo="git push origin $(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')"
 
-color_prompt=yes
 
 # Add git branch if its present to PS1
 git_branch() {
  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
 }
-
 git_status() {
  test -n "$(git_branch)" && echo -n "$*"
 }
@@ -157,6 +155,7 @@ git_staged() {
  git_status $(git status -s 2> /dev/null | grep -c '^[AMD]. ')
 }
 
+
 set_prompt() {
  if [ "$color_prompt" = yes ]; then
   local Z='\[\033[00m\]'
@@ -166,7 +165,7 @@ set_prompt() {
   local B='\[\033[01;34m\]'
  fi
 
-  PS1='${debian_chroot:+($debian_chroot)}'$B'\w'$Z\
+ PS1='${debian_chroot:+($debian_chroot)}'$B'\w'$Z\
 $R'$(git_branch)'$Z\
 '$(git_status [)'\
 $Y'$(git_unknown)'$Z'$(git_status /)'\
@@ -176,6 +175,7 @@ $G'$(git_staged)'$Z'$(git_status ])'\
 
 }
 
+color_prompt=yes
 set_prompt
 
 unset color_prompt force_color_prompt
