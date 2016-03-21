@@ -9,4 +9,7 @@ dbus-monitor --session "type='signal',interface='com.ubuntu.Upstart0_6'" | \
   done
 )
 
+sleep 2
+
+/usr/bin/xmodmap /home/pwinkler/.Xmodmap      
 
