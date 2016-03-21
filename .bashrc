@@ -129,9 +129,13 @@ alias op="xdg-open"
 alias gs="git status"
 alias gd="git diff"
 alias gf="git fetch"
-alias gc="git commit -m"
+alias gp="git pull"
+alias gcm="git commit -m"
 alias ga="git add"
 alias gaa="ga -A"
+alias gcl="git clone"
+alias gch="git checkout"
+alias gpo="git push origin $(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')"
 
 color_prompt=yes
 
