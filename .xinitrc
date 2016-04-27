@@ -1,5 +1,7 @@
+#!/bin/bash
 
+cd "$HOME/projects/mackeys"
 
-/home/pwinkler/.lockwatch &
+./loopkeys &
 
 

@@ -136,7 +136,11 @@ alias ga="git add"
 alias gaa="ga -A"
 alias gcl="git clone"
 alias gch="git checkout"
-alias gpo="git push origin $(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')"
+alias gfu="git rebase -i HEAD~2"
+alias nt="npm test"
+alias ni="npm install"
+alias nis="npm install --save"
+alias nid="npm install --save-dev"
 
 
 # Add git branch if its present to PS1
@@ -183,3 +187,8 @@ unset color_prompt force_color_prompt
 
 EDITOR=vim
 
+PATH=$PATH:$HOME/gv/bin/:$HOME/misc/jruby-9.0.5.0/bin:$HOME/misc/apache-maven-3.3.9/bin
+
+
+export NVM_DIR="/home/pwinkler/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm

@@ -1,0 +1,33 @@
+#!/bin/bash
+
+PID=$$
+
+cd "$(dirname "$0")"
+
+function setkeys {
+  echo $PID Setting keys
+  /usr/bin/xmodmap ./xmodmap      
+}
+
+function killme {
+  echo $PID Killing old process
+  ps ax|grep dbus-monitor|grep -v grep|sed -n 's/^\s*\([0-9]\+\).*$/\1/p' | xargs kill
+}
+
+function doloop {
+  while read X; do
+    if grep -q "desktop-unlock" <<< "$X"; then
+      setkeys
+      sleep 2
+    fi
+  done < <( dbus-monitor --session "type='signal',interface='com.ubuntu.Upstart0_6'" )
+}
+
+setkeys
+
+killme
+
+doloop
+  
+echo $PID Done
+
