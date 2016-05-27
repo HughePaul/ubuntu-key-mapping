@@ -11,6 +11,7 @@ keycode 113 = Left Prior Prior Prior
 keycode 114 = Right Next Next Next
 keycode 112 = Left Prior Prior Prior
 keycode 117 = Right Next Next Next
+keycode 108 = Control_R
 
 add control = Control_L Control_R
 add mod1 = Alt_L Alt_R Meta_L Meta_R
