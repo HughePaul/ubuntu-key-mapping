@@ -126,6 +126,7 @@ alias tf="tail -f"
 alias lla="ls -la"
 alias lt="ls -latr"
 alias op="xdg-open"
+
 alias gs="git status"
 alias gb="git branch"
 alias gd="git diff"
@@ -137,11 +138,17 @@ alias ga="git add"
 alias gaa="ga -A"
 alias gcl="git clone"
 alias gch="git checkout"
+alias gcb="git checkout -b"
 alias gfu="git rebase -i HEAD~2"
+alias gpo="git push origin"
+
 alias nt="npm test"
 alias ni="npm install"
 alias nis="npm install --save"
 alias nid="npm install --save-dev"
+proxy="http://proxy-l:3128"
+alias proxy="HTTP_PROXY=$proxy HTTPS_PROXY=$proxy NO_PROXY=localhost no_proxy=localhost NODE_TLS_REJECT_UNAUTHORIZED=0"
+alias nr='proxy node app.js'
 
 
 # Add git branch if its present to PS1
@@ -193,3 +200,9 @@ PATH=$PATH:$HOME/gv/bin/:$HOME/misc/jruby-9.0.5.0/bin:$HOME/misc/apache-maven-3.
 
 export NVM_DIR="/home/pwinkler/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+
+alias sshj="ssh -A comhjmp1"
+
+alias pbcopy='xclip -selection clipboard'
+alias pbpaste='xclip -selection clipboard -o'
+
