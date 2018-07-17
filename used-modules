@@ -1,0 +1,78 @@
+#!/bin/bash
+
+USED="$(find | grep '\.js$' | grep -v -e '/node_modules/' -e '/test/' -e '/example/' | xargs perl -ne "/require\\('([a-z][^'\\/]+)(\\/[^']+)?'\\)/ && print \"\$1\n\"" | sort -u)" \
+DEVUSED="$(find test | grep '\.js$' | xargs perl -ne "/require\\('([a-z][^'\\/]+)(\\/[^']+)?'\\)/ && print \"\$1\n\"" | sort -u)" \
+node << EOF
+'use strict';
+
+const ignoreDeps = [
+  // internal
+  'path', 'url', 'fs', 'querystring', 'util', 'vm', 'os', 'crypto', 'events', 'debug', 'http',
+  // peer dep of frontend-middleware
+  'frontend-templates',
+  // used by sass
+  'hmpo-frontend-toolkit',
+  // package tools
+  'hmpo-node-standards',
+  'npm-sass',
+  'husky',
+  'npm-shrinkwrap',
+  'browserify',
+  'uglify-js',
+  // testing
+  'mocha', 'istanbul', 'eslint',
+  'cucumber',
+  'gherkin', 'gherkin-lint',
+  'hmpo-stubber',
+  'npm-run-all',
+  'wdio-cucumber-framework',
+  'wdio-dot-reporter',
+  'wdio-firefox-profile-service',
+  'wdio-junit-reporter',
+  'wdio-mocha-framework',
+  'wdio-selenium-standalone-service',
+  'wdio-spec-reporter',
+  'webdriverio',
+  'karma',
+  'karma-browserify',
+  'karma-chai',
+  'karma-mocha',
+  'karma-phantomjs-launcher',
+  'karma-sinon-chai',
+  'phantomjs-prebuilt',
+  'watchify', 'watch', 'lolex'
+];
+
+let pack = require('./package');
+let used = process.env.USED.split(/\s+/);
+let devUsed = process.env.DEVUSED.split(/\s+/);
+
+let keep = {};
+let devkeep = {};
+
+used.forEach(dep => {
+  if (~ignoreDeps.indexOf(dep)) return;
+  if (pack.dependencies[dep]) return keep[dep] = true;
+  console.log('MISSING ' + dep);
+});
+
+devUsed.forEach(dep => {
+  if (~ignoreDeps.indexOf(dep)) return;
+  if (pack.dependencies[dep]) return;
+  if (pack.devDependencies[dep]) return devkeep[dep] = true;
+  console.log('DEV MISSING ' + dep);
+});
+
+Object.keys(pack.dependencies).forEach(dep => {
+  if (~ignoreDeps.indexOf(dep)) return;
+  if(keep[dep]) return;
+  console.log('EXTRA ' + dep);
+});
+
+Object.keys(pack.devDependencies).forEach(dep => {
+  if (~ignoreDeps.indexOf(dep)) return;
+  if(devkeep[dep]) return;
+  console.log('DEV EXTRA ' + dep);
+});
+
+EOF

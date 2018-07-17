@@ -147,7 +147,8 @@ alias ni="npm install"
 alias nis="npm install --save"
 alias nid="npm install --save-dev"
 proxy="http://proxy-l:3128"
-alias proxy="HTTP_PROXY=$proxy HTTPS_PROXY=$proxy NO_PROXY=localhost no_proxy=localhost NODE_TLS_REJECT_UNAUTHORIZED=0"
+noproxy="localhost,127.0.0.1"
+alias proxy="HTTP_PROXY=$proxy HTTPS_PROXY=$proxy NO_PROXY=$noproxy no_proxy=$noproxy NODE_TLS_REJECT_UNAUTHORIZED=0"
 alias nr='proxy node app.js'
 
 
@@ -184,6 +185,7 @@ $R'$(git_branch)'$Z\
 $Y'$(git_unknown)'$Z'$(git_status /)'\
 $R'$(git_unstaged)'$Z'$(git_status /)'\
 $G'$(git_staged)'$Z'$(git_status ])'\
+'['$B'$(node -v|sed s/v/node/)'$Z']['$B'npm$(npm -v|cut -d. -f1)'$Z']'\
 '\n\$ '
 
 }
