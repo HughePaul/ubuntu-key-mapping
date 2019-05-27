@@ -131,17 +131,19 @@ alias gs="git status"
 alias gb="git branch"
 alias gd="git diff"
 alias gf="git fetch"
-alias gfa="git fetch --all --tags"
+alias gfa="git fetch --all --tags --force"
 alias gp="git pull"
-alias gcm="git commit -m"
-alias ga="git add"
-alias gaa="ga -A"
+alias gcm="git commit -S -m"
+alias gca="git commit -S --amend --no-edit"
+alias gad="git add"
+alias gaa="git add --all"
 alias gcl="git clone"
 alias gch="git checkout"
 alias gcb="git checkout -b"
-alias gfu="git rebase -i HEAD~2"
+alias gfu="git rebase -S -i HEAD~2"
+alias ga="git commit -S --amend"
 alias gpo="git push origin"
-
+alias glol='git log --graph --pretty='\''%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'\'
 alias nt="npm test"
 alias ni="npm install"
 alias nis="npm install --save"
@@ -150,6 +152,7 @@ proxy="http://proxy-l:3128"
 noproxy="localhost,127.0.0.1"
 alias proxy="HTTP_PROXY=$proxy HTTPS_PROXY=$proxy NO_PROXY=$noproxy no_proxy=$noproxy NODE_TLS_REJECT_UNAUTHORIZED=0"
 alias nr='proxy node app.js'
+alias pm2='~/projects/frontend-proxy-local/node_modules/.bin/pm2'
 
 
 # Add git branch if its present to PS1

@@ -1,0 +1,9 @@
+find . \( \
+	\( \
+		-name node_modules -o \
+		-name pass-max -o \
+		-name passports-prototype -o \
+		-name coverage \
+	\) -prune \) \
+-o -name '*.js' \
+-exec grep --color -Hn $@ {} ';'
